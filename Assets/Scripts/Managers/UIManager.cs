@@ -250,7 +250,10 @@ public class UIManager : MonoBehaviour
     {
         OpenPopup("Instruktioner","Detta spelet utvecklas med hjälp av dig. Kom till oss och lägg till nya funktioner till spelet tillsammans med oss");
     }
-    
+    public void OpenCode()
+    {
+        OpenURLPopup("Kolla på koden","Om du är intresserad av hur detta spelet är gjort finns all kod tillgänglig på github.","https://github.com/FlyingJakob/Dreamhack2022","GitHub");
+    }
     
     
     public void OpenPopup(string title,string text)
@@ -260,14 +263,26 @@ public class UIManager : MonoBehaviour
         foreach (UITab tab in tabs)
         {
             if (tab.name=="popup")
-            {
-               TextMeshProUGUI[] textObjs = tab.gameObject.GetComponentsInChildren<TextMeshProUGUI>();
-               textObjs[1].text = title;
-               textObjs[0].text = text;
-               return;
+            { 
+                ((PopUpTab)tab).SetPopupInfo(title,text);
+                return;
             }
         }
     }
+
+    public void OpenURLPopup(string title,string text,string url,string linkName)
+    {
+        SetTab("popup",true);
+
+        foreach (UITab tab in tabs)
+        {
+            if (tab.name=="popup")
+            {
+                ((PopUpTab)tab).SetPopupInfo(title,text,url,linkName);
+            }
+        }
+    }
+    
 
     public GameObject loadingScreen;
 
