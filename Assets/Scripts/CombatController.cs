@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class CombatController : NetworkBehaviour
@@ -19,11 +20,14 @@ public class CombatController : NetworkBehaviour
     public float firerate;
 
     [SyncVar] public bool isDead;
+
     
     private void Awake()
     {
         movementController = GetComponent<MovementController>();
     }
+    
+   
 
     //Called on server
     public void DamagePlayer(float amount)
@@ -108,14 +112,9 @@ public class CombatController : NetworkBehaviour
 
             UIManager.singleton.SetCrosshairPos((shootPos.position+shootPos.forward*20f));
             
-            if (Input.GetMouseButtonDown(0))
-            {
-                shootTC = 0;
-            }
             
-            if (Input.GetMouseButton(0)&&!UIManager.singleton.isPaused&&!movementController.isLocked)
+            if (isShooting&&!UIManager.singleton.isPaused)
             {
-                shootTC -= Time.deltaTime;
                 if (shootTC<=0)
                 {
                     CMDShoot(shootPos.position,transform.rotation,GetComponent<Rigidbody>().velocity,netIdentity);
@@ -123,14 +122,31 @@ public class CombatController : NetworkBehaviour
                     movementController.AddRecoil(0.2f);
                     shootTC = firerate;
                 }
+
+                shootTC -= Time.deltaTime;
             }
-            
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                CMDPlayerRespawn();
-            }
+            //CMDPlayerRespawn();
         }
     }
+
+    public bool isShooting;
+    
+    public void Shoot(InputAction.CallbackContext context)
+    {
+        if (context.performed&&!isShooting)
+        {
+            shootTC = 0;
+            isShooting = true;
+        }else if (context.canceled)
+        {
+            isShooting = false;
+        }
+    }
+
+    
+    
+    
+    
     [Command]
     private void CMDShoot(Vector3 pos,Quaternion rot,Vector3 startVel,NetworkIdentity sender)
     {

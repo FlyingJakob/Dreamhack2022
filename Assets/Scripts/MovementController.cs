@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class MovementController : NetworkBehaviour
 {
     #region Variables
@@ -18,6 +18,15 @@ public class MovementController : NetworkBehaviour
     public float liftAmount;
     #endregion
 
+    
+    #region Input
+    private PlayerControls playerControls;
+    public Vector2 rotationInput;
+    public Vector2 moveInput;
+    
+    #endregion
+    
+    
     #region LocalVariables
     [SyncVar] private float currentThrust;
     #endregion
@@ -47,7 +56,6 @@ public class MovementController : NetworkBehaviour
 
         float lift = Vector3.SignedAngle(localVelocity, Vector3.forward,Vector3.right);
         
-        print(lift*localVelocity.magnitude);
         rigidbody.AddForce(-transform.up*lift*localVelocity.magnitude*Time.deltaTime*liftAmount);
     }
 
@@ -66,21 +74,48 @@ public class MovementController : NetworkBehaviour
     private void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
+        
         PlayerRespawn();
     }
+
+    private void Awake()
+    {
+        InitInputs();
+    }
+
+    private void InitInputs()
+    {
+        playerControls = new PlayerControls();
+        playerControls.GamePlay.Rotate.performed += ctx => rotationInput = ctx.ReadValue<Vector2>();
+        playerControls.GamePlay.Rotate.canceled += ctx => rotationInput = Vector2.zero;
+        playerControls.GamePlay.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        playerControls.GamePlay.Move.canceled += ctx => moveInput = Vector2.zero;
+    }
     
-    //Här behandlar vi all rotation av spelaren
+    private void OnEnable()
+    {
+        playerControls.GamePlay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        playerControls.GamePlay.Disable();
+    }
+
+
+    
     private void PlayerRotation()
     {
         if (UIManager.singleton.isPaused||isLocked) { return; }
-        
-        
-        
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
-        float roll = Convert.ToInt32(Input.GetKey(KeyCode.Q))-Convert.ToInt32(Input.GetKey(KeyCode.E));
+        float mouseX = rotationInput.x;
+        float mouseY = rotationInput.y;
+        float roll = 0;
         float steeringSens = Mathf.Clamp(rigidbody.velocity.magnitude * 0.2f,0.1f,1f);
-        rigidbody.AddTorque(((transform.up*mouseX-transform.right*mouseY)*rotationSpeed+ (transform.forward * roll * 3f*Time.deltaTime*800f))*steeringSens);
+        
+        rigidbody.AddTorque(((transform.up*mouseX-transform.right*mouseY)*rotationSpeed*Time.deltaTime*100f- (transform.forward * moveInput.x * 3f))*steeringSens);
+        
+        
+        
     }
     //Här behandlar vi all rörelse av spelaren
     private void Movement()
@@ -91,24 +126,8 @@ public class MovementController : NetworkBehaviour
             CMDSetThrust(currentThrust);
             return;
         }
-        
-        if (Input.GetKey(KeyCode.W)) // Om spelaren trycker på knappen 'W'
-        {
-            rigidbody.AddForce(transform.forward *
-                               thrusterForce*Time.deltaTime); //Lägger till en kraft framåt på raketen av storleken thrusterForce.
-            currentThrust = Mathf.Lerp(currentThrust, 1, Time.deltaTime * 8f);
-        }
-        else
-        {
-            currentThrust = Mathf.Lerp(currentThrust, 0, Time.deltaTime * 8f);
-        }
-
-        if (Input.GetKey(KeyCode.S)) // Om spelaren trycker på knappen 'W'
-        {
-            rigidbody.AddForce(-transform.forward *
-                               thrusterForce*0.5f*Time.deltaTime); //Lägger till en kraft bakåt på raketen av storleken thrusterForce.
-            
-        }
+        rigidbody.AddForce(transform.forward*moveInput.y * thrusterForce*Time.deltaTime);
+        currentThrust = Mathf.Lerp(currentThrust, Mathf.Clamp(moveInput.y,0,1), Time.deltaTime * 10f);
         CMDSetThrust(currentThrust);
     }
 

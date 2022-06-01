@@ -6,6 +6,7 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -290,15 +291,35 @@ public class UIManager : MonoBehaviour
     {
         loadingScreen.SetActive(state);
     }
-    
-    
+
+
+    public void Back(InputAction.CallbackContext context)
+    {
+        if (!context.performed)
+        {
+            return;
+        }
+        
+        if (noTabsOpen()||tabStack.Last().allowOpenPause)
+        {
+            SetTab("pause",true);
+        }
+        else
+        {
+            ReturnToPreviousTab();
+        }
+            
+        PlayUISound("pause");
+
+    }
+
     private void Update()
     {
 
         
         SetLoadingScreen(!NetworkClient.isConnected);
         
-        
+        /*
         
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -315,6 +336,7 @@ public class UIManager : MonoBehaviour
             
             //SetPauseTab(!pauseTab.activeSelf&&!settingsTab.activeSelf);
         }
+        */
     }
     
     //Returns 'true' if we touched or hovering on Unity UI element.
