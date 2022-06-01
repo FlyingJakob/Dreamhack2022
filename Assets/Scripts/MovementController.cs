@@ -73,6 +73,9 @@ public class MovementController : NetworkBehaviour
     private void PlayerRotation()
     {
         if (UIManager.singleton.isPaused||isLocked) { return; }
+        
+        
+        
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         float roll = Convert.ToInt32(Input.GetKey(KeyCode.Q))-Convert.ToInt32(Input.GetKey(KeyCode.E));
