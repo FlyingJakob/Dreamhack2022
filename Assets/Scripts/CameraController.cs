@@ -60,13 +60,19 @@ public class CameraController : MonoBehaviour
 
         camera.fieldOfView = originalFOV;
     }
-    
+
+    public int targetFrameRate;
     
     private void Awake()
     {
         InitSingleton();
         camera = GetComponent<Camera>();
         originalFOV  = camera.fieldOfView;
+    }
+
+    private void Update()
+    {
+        Application.targetFrameRate = targetFrameRate;
     }
 
     void FixedUpdate()

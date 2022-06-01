@@ -369,7 +369,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   thrusterForce: 1000
-  rotationSpeed: 2
+  rotationSpeed: 0.4
   thrusters:
   - {fileID: 5974552974338189860}
   - {fileID: 3119775468322830639}
@@ -516,10 +516,6 @@ MonoBehaviour:
     m_ActionId: 2af5a491-5b5a-4c0a-b93a-a38636be1045
     m_ActionName: GamePlay/Move[/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: cbee0f44-1b55-477d-a468-96d2a7eb797c
-    m_ActionName: GamePlay/Back[/Keyboard/escape,/XInputControllerWindows/buttonEast]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4853109105131632017}
         m_TargetAssemblyTypeName: CombatController, Assembly-CSharp
@@ -535,6 +531,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2a067594-5628-4978-9356-cdc3b989f732
     m_ActionName: GamePlay/Fire[/XInputControllerWindows/rightTrigger,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6d9712f8-9d98-4ba1-9bee-af2e1cf9bc8e
+    m_ActionName: UI/Back[/Keyboard/escape,/XInputControllerWindows/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: GamePlay

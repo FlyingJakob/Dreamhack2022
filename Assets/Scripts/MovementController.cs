@@ -111,7 +111,7 @@ public class MovementController : NetworkBehaviour
         float mouseY = rotationInput.y;
         float steeringSens = Mathf.Clamp(rigidbody.velocity.magnitude * 0.2f,0.1f,1f);
         
-        rigidbody.AddTorque(((transform.up*mouseX-transform.right*mouseY)*rotationSpeed*Time.deltaTime*100f- (transform.forward * moveInput.x * 3f))*steeringSens*Time.deltaTime*800f);
+        rigidbody.AddTorque(((transform.up*mouseX-transform.right*mouseY)*rotationSpeed - (transform.forward * moveInput.x * 3f))*steeringSens*Time.deltaTime*800f);
         
         
         
