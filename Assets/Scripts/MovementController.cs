@@ -109,10 +109,9 @@ public class MovementController : NetworkBehaviour
         if (UIManager.singleton.isPaused||isLocked) { return; }
         float mouseX = rotationInput.x;
         float mouseY = rotationInput.y;
-        float roll = 0;
         float steeringSens = Mathf.Clamp(rigidbody.velocity.magnitude * 0.2f,0.1f,1f);
         
-        rigidbody.AddTorque(((transform.up*mouseX-transform.right*mouseY)*rotationSpeed*Time.deltaTime*100f- (transform.forward * moveInput.x * 3f))*steeringSens);
+        rigidbody.AddTorque(((transform.up*mouseX-transform.right*mouseY)*rotationSpeed*Time.deltaTime*100f- (transform.forward * moveInput.x * 3f))*steeringSens*Time.deltaTime*800f);
         
         
         
