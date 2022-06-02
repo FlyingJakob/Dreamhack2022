@@ -2,10 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Mirror.SimpleWeb;
 using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
 {
+    public override void Awake()
+    {
+        base.Awake();
+        var args = System.Environment.GetCommandLineArgs();
+        print("Port = "+args[1]);
+        GetComponent<SimpleWebTransport>().port = ushort.Parse(args[1]);
+
+        
+        
+        
+    }
+
 
     public override void OnStartClient()
     {
