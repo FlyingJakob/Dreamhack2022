@@ -167,6 +167,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Respawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2b33319-5455-4e6f-8a0a-ba144fe35817"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Score"",
+                    ""type"": ""Button"",
+                    ""id"": ""15a72112-41a5-4f74-b952-16bd628aad81"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -191,6 +207,39 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""79232541-aa15-4f24-8654-5c9584d63140"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Respawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e498d55d-e7d2-433f-bc82-f13b4751257f"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Respawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e1aa497-56a7-4f77-886d-add6177ae82c"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Score"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -205,6 +254,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Back = m_UI.FindAction("Back", throwIfNotFound: true);
+        m_UI_Respawn = m_UI.FindAction("Respawn", throwIfNotFound: true);
+        m_UI_Score = m_UI.FindAction("Score", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -304,11 +355,15 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputActionMap m_UI;
     private IUIActions m_UIActionsCallbackInterface;
     private readonly InputAction m_UI_Back;
+    private readonly InputAction m_UI_Respawn;
+    private readonly InputAction m_UI_Score;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
         public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Back => m_Wrapper.m_UI_Back;
+        public InputAction @Respawn => m_Wrapper.m_UI_Respawn;
+        public InputAction @Score => m_Wrapper.m_UI_Score;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -321,6 +376,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Back.started -= m_Wrapper.m_UIActionsCallbackInterface.OnBack;
                 @Back.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnBack;
                 @Back.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnBack;
+                @Respawn.started -= m_Wrapper.m_UIActionsCallbackInterface.OnRespawn;
+                @Respawn.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnRespawn;
+                @Respawn.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnRespawn;
+                @Score.started -= m_Wrapper.m_UIActionsCallbackInterface.OnScore;
+                @Score.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnScore;
+                @Score.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnScore;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -328,6 +389,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Back.started += instance.OnBack;
                 @Back.performed += instance.OnBack;
                 @Back.canceled += instance.OnBack;
+                @Respawn.started += instance.OnRespawn;
+                @Respawn.performed += instance.OnRespawn;
+                @Respawn.canceled += instance.OnRespawn;
+                @Score.started += instance.OnScore;
+                @Score.performed += instance.OnScore;
+                @Score.canceled += instance.OnScore;
             }
         }
     }
@@ -341,5 +408,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     public interface IUIActions
     {
         void OnBack(InputAction.CallbackContext context);
+        void OnRespawn(InputAction.CallbackContext context);
+        void OnScore(InputAction.CallbackContext context);
     }
 }

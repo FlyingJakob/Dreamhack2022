@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
             _singleton = this;
         }
     }
+
+    public GameObject HUD;
     
     public List<UITab> tabStack = new List<UITab>();
     public List<UITab> tabs;
@@ -30,6 +32,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         InitSingleton();
+        crossOrgSize = crosshair.GetChild(0).GetComponent<RectTransform>().sizeDelta;
         UILayer = LayerMask.NameToLayer("UI");
         SetTab("menu",true);
         audioSource = GetComponent<AudioSource>();
@@ -222,6 +225,34 @@ public class UIManager : MonoBehaviour
         crosshair.position = Camera.main.WorldToScreenPoint(pos);
     }
 
+    private Coroutine hitmarkCoroutine;
+    public void MarkHit()
+    {
+        if (hitmarkCoroutine!=null)
+        {
+            StopCoroutine(hitmarkCoroutine);
+        }
+        hitmarkCoroutine = StartCoroutine(CoroutineMarkHit());
+    }
+
+    public AnimationCurve hitMarkSize;
+    private Vector2 crossOrgSize;
+    private IEnumerator CoroutineMarkHit()
+    {
+        RectTransform cross = crosshair.transform.GetChild(0).GetComponent<RectTransform>();
+        
+        float tc = 0;
+        
+        while (hitMarkSize.Evaluate(tc)>0)
+        {
+            cross.sizeDelta =crossOrgSize + Vector2.one * hitMarkSize.Evaluate(tc);
+            tc += Time.deltaTime;
+            yield return null;
+        }
+
+        cross.sizeDelta = crossOrgSize;
+    }
+
     [Header("UISounds")] 
     public AudioClip hoverClip;
     public AudioClip clickClip;
@@ -292,7 +323,22 @@ public class UIManager : MonoBehaviour
         loadingScreen.SetActive(state);
     }
 
+    public void SetScoreTab(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            OpenTab("score");
+        }
 
+        if (context.canceled)
+        {
+            CloseTab("score");
+
+        }
+    }
+    
+    
+    
     public void Back(InputAction.CallbackContext context)
     {
         if (!context.performed)
@@ -315,28 +361,8 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-
-        
         SetLoadingScreen(!NetworkClient.isConnected);
-        
-        /*
-        
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (noTabsOpen()||tabStack.Last().allowOpenPause)
-            {
-                SetTab("pause",true);
-            }
-            else
-            {
-                ReturnToPreviousTab();
-            }
-            
-            PlayUISound("pause");
-            
-            //SetPauseTab(!pauseTab.activeSelf&&!settingsTab.activeSelf);
-        }
-        */
+        HUD.SetActive(noTabsOpen());
     }
     
     //Returns 'true' if we touched or hovering on Unity UI element.
@@ -366,7 +392,14 @@ public class UIManager : MonoBehaviour
         return raysastResults;
     }
 
-
+    public TextMeshProUGUI scoreText;
+    public void SetScoreText(int score)
+    {
+        if (HUD.activeSelf)
+        {
+            scoreText.text = "score : " + score;
+        }
+    }
 
 
 }

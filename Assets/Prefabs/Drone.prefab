@@ -182,12 +182,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091267305127882137}
-  m_LocalRotation: {x: 0.55432147, y: -0, z: -0, w: 0.83230275}
-  m_LocalPosition: {x: 0, y: 0.37, z: -0.868}
-  m_LocalScale: {x: 0.7342333, y: 0.7342333, z: 0.7342333}
+  m_LocalRotation: {x: 0.39196444, y: 0.39196444, z: 0.5885269, w: 0.5885269}
+  m_LocalPosition: {x: -0.007230517, y: 0, z: -0.0169624}
+  m_LocalScale: {x: 0.0143483365, y: 0.014348341, z: 0.01434834}
   m_Children: []
-  m_Father: {fileID: 2956106249345897069}
-  m_RootOrder: 6
+  m_Father: {fileID: 3354209229113112901}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 67.328, y: 0, z: 0}
 --- !u!33 &6502715994481618565
 MeshFilter:
@@ -326,6 +326,7 @@ GameObject:
   - component: {fileID: 2163564366196315529}
   - component: {fileID: 7870856416170880693}
   - component: {fileID: 1153817664048407934}
+  - component: {fileID: 1946251144686746560}
   m_Layer: 6
   m_Name: Drone
   m_TagString: Untagged
@@ -350,7 +351,6 @@ Transform:
   - {fileID: 7326368700946489791}
   - {fileID: 2429083555828602896}
   - {fileID: 2196944793719153802}
-  - {fileID: 2750346416598323301}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -368,7 +368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  thrusterForce: 1000
+  thrusterForce: 1200
   rotationSpeed: 0.4
   thrusters:
   - {fileID: 5974552974338189860}
@@ -535,11 +535,35 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 6d9712f8-9d98-4ba1-9bee-af2e1cf9bc8e
     m_ActionName: UI/Back[/Keyboard/escape,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c2b33319-5455-4e6f-8a0a-ba144fe35817
+    m_ActionName: UI/Respawn[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 15a72112-41a5-4f74-b952-16bd628aad81
+    m_ActionName: UI/Score[/Keyboard/tab]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: GamePlay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1946251144686746560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2956106249345897068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8afd493f6e1b9c547bca78275cd6b999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  name: 
+  score: 0
 --- !u!1001 &2559011226548263795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -558,6 +582,10 @@ PrefabInstance:
     - target: {fileID: 5745953893762089495, guid: cab86da0d38c4564e8e7fb9c26233bd5, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5745953893762089495, guid: cab86da0d38c4564e8e7fb9c26233bd5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905009260593614952, guid: cab86da0d38c4564e8e7fb9c26233bd5, type: 3}
       propertyPath: m_RootOrder
@@ -716,16 +744,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d30df80249583043a0c533a03437bb5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7d30df80249583043a0c533a03437bb5, type: 3}
---- !u!1 &2722244732916851711 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d30df80249583043a0c533a03437bb5, type: 3}
-  m_PrefabInstance: {fileID: 2956106249321766574}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3354209229113112901 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 7d30df80249583043a0c533a03437bb5, type: 3}
+  m_PrefabInstance: {fileID: 2956106249321766574}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2722244732916851711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7d30df80249583043a0c533a03437bb5, type: 3}
   m_PrefabInstance: {fileID: 2956106249321766574}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6494511866794412152
@@ -746,6 +778,10 @@ PrefabInstance:
     - target: {fileID: 5745953893762089495, guid: cab86da0d38c4564e8e7fb9c26233bd5, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5745953893762089495, guid: cab86da0d38c4564e8e7fb9c26233bd5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8905009260593614952, guid: cab86da0d38c4564e8e7fb9c26233bd5, type: 3}
       propertyPath: m_RootOrder

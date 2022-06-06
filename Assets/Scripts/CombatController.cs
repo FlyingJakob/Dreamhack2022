@@ -25,12 +25,19 @@ public class CombatController : NetworkBehaviour
     private void Awake()
     {
         movementController = GetComponent<MovementController>();
+        setDead();
+    }
+
+    private void setDead()
+    {
+        isDead = true;
+        playerBody.SetActive(false);
     }
     
    
 
     //Called on server
-    public void DamagePlayer(float amount)
+    public void DamagePlayer(float amount,NetworkIdentity sender)
     {
 
         if (isDead)
@@ -45,7 +52,12 @@ public class CombatController : NetworkBehaviour
         
         if (health<=0)
         {
+            sender.GetComponent<PlayerInfo>().AddScore(100);
             PlayerDeath();
+        }
+        else
+        {
+            sender.GetComponent<PlayerInfo>().AddScore(10);
         }
     }
     
@@ -66,13 +78,18 @@ public class CombatController : NetworkBehaviour
         {
             rigidbody.AddExplosionForce(800f,transform.position,10f);
         }
+
+        if (isLocalPlayer)
+        {
+            UIManager.singleton.OpenTab("respawn");
+        }
         
         playerBody.SetActive(false);
         GetComponent<MovementController>().PlayerDeath();
     }
 
     [Command]
-    private void CMDPlayerRespawn()
+    public void CMDPlayerRespawn()
     {
         isDead = false;
         print("Respawn");
@@ -89,6 +106,11 @@ public class CombatController : NetworkBehaviour
         print("Respawn");
 
         NetworkStartPosition[] startPositions = FindObjectsOfType<NetworkStartPosition>();
+
+        if (isLocalPlayer)
+        {
+            UIManager.singleton.CloseTab("respawn");
+        }
         
         StartCoroutine(CoroutineMovePlayer(startPositions[Random.Range(0,startPositions.Length)].transform.position));
         playerBody.SetActive(true);
@@ -126,6 +148,15 @@ public class CombatController : NetworkBehaviour
                 shootTC -= Time.deltaTime;
             }
             //CMDPlayerRespawn();
+        }
+        else
+        {
+            if (!isDead&& !playerBody.activeSelf)
+            {
+                playerBody.SetActive(true);
+                GetComponent<MovementController>().enabled = true;
+                GetComponent<MovementController>().PlayerRespawn();
+            }
         }
     }
 

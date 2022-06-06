@@ -7,23 +7,23 @@ using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
 {
+
+    
     public override void Awake()
     {
         base.Awake();
+        /*
         var args = System.Environment.GetCommandLineArgs();
         print("Port = "+args[1]);
         GetComponent<SimpleWebTransport>().port = ushort.Parse(args[1]);
-
-        
-        
-        
+        */
     }
-
 
     public override void OnStartClient()
     {
         base.OnStartClient();
         UIManager.singleton.SetTab("menu",false);
+        UIManager.singleton.SetTab("login",true);
         //UIManager.singleton.SetTab("loading",true);
         UIManager.singleton.PlayUISound("load");
 
@@ -31,16 +31,14 @@ public class CustomNetworkManager : NetworkManager
 
     private void OnConnectedToServer()
     {
-        UIManager.singleton.SetTab("loading",false);
 
     }
 
     public override void OnStartHost()
     {
-        UIManager.singleton.SetTab("loading",false);
 
     }
-
+    
 
     public override void OnClientDisconnect()
     {
