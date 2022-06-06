@@ -71,16 +71,14 @@ public class MovementController : NetworkBehaviour
             thruster.SetThrust(currentThrust);
         }
     }
-    private void Start()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-        
-        PlayerRespawn();
-    }
+    
+    
 
     private void Awake()
     {
+        rigidbody = GetComponent<Rigidbody>();
         InitInputs();
+        PlayerDeath();
     }
 
     private void InitInputs()
@@ -156,7 +154,6 @@ public class MovementController : NetworkBehaviour
         }
         rigidbody.isKinematic = true;
         isLocked = true;
-
     }
     
     

@@ -41,7 +41,8 @@ public class LaserProjectile : NetworkBehaviour
             CombatController combatController = hit.collider.gameObject.GetComponentInParent<CombatController>();
             if (combatController!=null)
             {
-                combatController.DamagePlayer(damage);
+                combatController.DamagePlayer(damage,sender);
+                
             }
             hasHit = true;
             RPCHit();
@@ -53,6 +54,11 @@ public class LaserProjectile : NetworkBehaviour
     [ClientRpc]
     private void RPCHit()
     {
+        if (sender==NetworkClient.localPlayer)
+        {
+            UIManager.singleton.MarkHit();
+        }
+        
     }
 
 }
