@@ -89,9 +89,12 @@ public class PlayerManager : NetworkBehaviour
     }
 
     public SyncIDictionary <string,int> playerHighScores = new SyncIDictionary<string, int>(new SortedDictionary<string, int>());
+
+
+    [Command] public void CMDSetScore(string name, int score) => SetScore(name, score);
     
-    [Command(requiresAuthority = false)]
-    public void CMDSetScore(string name,int score)
+    
+    public void SetScore(string name,int score)
     {
         if (playerHighScores.ContainsKey(name))
         {

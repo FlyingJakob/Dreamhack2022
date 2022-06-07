@@ -18,7 +18,7 @@ public class PlayerInfo : NetworkBehaviour
     public void AddScore(int amount)
     {
         score += amount;
-        PlayerManager.singleton.CMDSetScore(name,score);
+        PlayerManager.singleton.SetScore(name,score);
     }
 
 
