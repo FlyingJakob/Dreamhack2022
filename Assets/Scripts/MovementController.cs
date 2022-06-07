@@ -78,7 +78,6 @@ public class MovementController : NetworkBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         InitInputs();
-        PlayerDeath();
     }
 
     private void InitInputs()

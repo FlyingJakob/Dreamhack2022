@@ -25,7 +25,15 @@ public class CombatController : NetworkBehaviour
     private void Awake()
     {
         movementController = GetComponent<MovementController>();
-        setDead();
+    }
+
+    private void Start()
+    {
+        if (isDead||isLocalPlayer)
+        {
+            setDead();
+            movementController.PlayerDeath();
+        }
     }
 
     private void setDead()
@@ -149,15 +157,7 @@ public class CombatController : NetworkBehaviour
             }
             //CMDPlayerRespawn();
         }
-        else
-        {
-            if (!isDead&& !playerBody.activeSelf)
-            {
-                playerBody.SetActive(true);
-                GetComponent<MovementController>().enabled = true;
-                GetComponent<MovementController>().PlayerRespawn();
-            }
-        }
+        
     }
 
     public bool isShooting;

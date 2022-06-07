@@ -41,13 +41,12 @@ public class NameSelectTab : UITab
             emailInputField.textComponent.color = Color.red;
             emailWarning.gameObject.SetActive(true);
         }
-        
-        
     }
+
 
     public void Apply()
     {
-        if (nameInputField.text.Length>15)
+        if (nameInputField.text.Length>15||nameInputField.text.Length<2||!(emailInputField.text.Contains("@")&&(emailInputField.text.Contains(".com")||emailInputField.text.Contains(".se"))))
         {
             return;
         }
