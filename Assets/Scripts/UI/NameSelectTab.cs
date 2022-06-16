@@ -46,10 +46,12 @@ public class NameSelectTab : UITab
 
     public void Apply()
     {
+        /*
         if (nameInputField.text.Length>15||nameInputField.text.Length<2||!(emailInputField.text.Contains("@")&&(emailInputField.text.Contains(".com")||emailInputField.text.Contains(".se"))))
         {
             return;
         }
+        */
 
         if (!PlayerManager.singleton.RegisterPlayer(nameInputField.text,emailInputField.text))
         {

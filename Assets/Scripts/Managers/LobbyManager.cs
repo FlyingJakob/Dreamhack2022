@@ -20,7 +20,7 @@ public class LobbyManager : MonoBehaviour
 
     public void JoinLobby()
     {
-        networkManager.networkAddress = "193.123.34.2";
+        networkManager.networkAddress = "dh.distansakademin.se";
         networkManager.StartClient();
     }
     
