@@ -2751,7 +2751,7 @@ MonoBehaviour:
   networkAddress: dh.distansakademin.se
   maxConnections: 100
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 2956106249345897068, guid: aa214480e6daf5647889b7282bcc0242, type: 3}
+  playerPrefab: {fileID: 2956106249345897068, guid: 8d4dd64975b91f348bc0d88db6918c00, type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
   spawnPrefabs:
@@ -2817,7 +2817,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 321469279}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
   m_Name: 
